@@ -11,12 +11,7 @@ public class PostagemServiceImpl implements PostagemService {
 
   @Override
   public void adicionarPostagem(Postagem postagem) {
-    // TODO open/closed
-    if (postagem.getPostagemTipo().equals(Postagem.PostagemTipo.PUBLICA)) {
-      this.postagemDAO.addPostagemPublica(postagem);
-    } else if (postagem.getPostagemTipo().equals(Postagem.PostagemTipo.PRIVADA)) {
-      this.postagemDAO.addPostagemPrivada(postagem);
-    }
+    postagemDAO.addPostagem(postagem);
   }
 
   @Override
