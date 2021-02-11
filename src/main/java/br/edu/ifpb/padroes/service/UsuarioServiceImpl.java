@@ -1,34 +1,36 @@
 package br.edu.ifpb.padroes.service;
 
-import br.edu.ifpb.padroes.modelo.Postagem;
-import br.edu.ifpb.padroes.modelo.PostagemResposta;
+import br.edu.ifpb.padroes.dao.UsuarioDAO;
 import br.edu.ifpb.padroes.modelo.Usuario;
 
-import java.util.Date;
 import java.util.List;
 
 public class UsuarioServiceImpl implements UsuarioService {
 
-    private final UsuarioDAO usuarioDAO = new UsuarioDAO("banco.db");
+    private final UsuarioDAO usuarioDAO;
+
+    public UsuarioServiceImpl(UsuarioDAO dao) {
+        this.usuarioDAO = dao;
+    }
 
     @Override
     public void criarUsuario(Usuario usuario) {
-        usuarioDAO.addUsuario(usuario);
+        usuarioDAO.adicionar(usuario);
     }
 
     @Override
     public void atualizarUsuario(Usuario usuario) {
-        usuarioDAO.updateUsuario(usuario);
+        usuarioDAO.atualizar(usuario);
     }
 
     @Override
     public void removerUsuario(Usuario usuario) {
-        usuarioDAO.deleteUsuario(usuario);
+        usuarioDAO.remover(usuario);
     }
 
     @Override
     public List<Usuario> listarUsuarios(Usuario usuario) {
-        return usuarioDAO.listUsuarios();
+        return usuarioDAO.listar();
     }
 
     @Override
