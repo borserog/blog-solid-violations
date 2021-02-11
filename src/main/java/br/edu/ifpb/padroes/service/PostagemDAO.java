@@ -10,11 +10,13 @@ import java.util.logging.Logger;
 public class PostagemDAO {
 
     private String arquivoBanco;
+
     public PostagemDAO(String arquivoBanco) {
         this.arquivoBanco = arquivoBanco;
     }
 
     private Connection connect() {
+        // TODO candidato para inversão de dependência criar classe Abstrata AbstractDAO<T>
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:"+this.arquivoBanco)) {
             Statement statement = connection.createStatement();
 
@@ -28,28 +30,14 @@ public class PostagemDAO {
         return null;
     }
 
-    public void addPostagemPublica(Postagem postagem) {
+    public void addPostagem(Postagem postagem) {
         Connection conexao = connect();
         try (PreparedStatement stmt = conexao.prepareStatement("INSERT INTO POSTAGEM( ID, TITULO, USUARIO_ID, MENSAGEM, TIPO) VALUES (?, ?, ?, ?, ?)")) {
             stmt.setLong(1, postagem.getId());
             stmt.setString(2, postagem.getTitulo());
             stmt.setLong(3, postagem.getUsuario().getId());
             stmt.setString(4, postagem.getMensagem());
-            stmt.setString(5, Postagem.PostagemTipo.PUBLICA.toString());
-            stmt.execute();
-        } catch (SQLException ex) {
-            this.trataExcecao(ex);
-        }
-    }
-
-    public void addPostagemPrivada(Postagem postagem) {
-        Connection conexao = connect();
-        try (PreparedStatement stmt = conexao.prepareStatement("INSERT INTO POSTAGEM( ID, TITULO, USUARIO_ID, MENSAGEM, TIPO) VALUES (?, ?, ?, ?, ?)")) {
-            stmt.setLong(1, postagem.getId());
-            stmt.setString(2, postagem.getTitulo());
-            stmt.setLong(3, postagem.getUsuario().getId());
-            stmt.setString(4, postagem.getMensagem());
-            stmt.setString(5, Postagem.PostagemTipo.PRIVADA.toString());
+            stmt.setString(5, postagem.getPostagemTipo().toString());
             stmt.execute();
         } catch (SQLException ex) {
             this.trataExcecao(ex);

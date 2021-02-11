@@ -2,8 +2,6 @@ package br.edu.ifpb.padroes.modelo;
 
 public class Postagem {
 
-    public enum PostagemTipo { PUBLICA, PRIVADA }
-
     private Long id;
 
     private String titulo;
@@ -12,7 +10,7 @@ public class Postagem {
 
     private String mensagem;
 
-    private PostagemTipo postagemTipo;
+    private EPostagemTipo postagemTipo;
 
     public Long getId() {
         return id;
@@ -46,11 +44,11 @@ public class Postagem {
         this.mensagem = mensagem;
     }
 
-    public PostagemTipo getPostagemTipo() {
+    public EPostagemTipo getPostagemTipo() {
         return postagemTipo;
     }
 
-    public void setPostagemTipo(PostagemTipo postagemTipo) {
+    public void setPostagemTipo(EPostagemTipo postagemTipo) {
         this.postagemTipo = postagemTipo;
     }
 }
