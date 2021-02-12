@@ -6,7 +6,7 @@ public class Postagem {
 
     private String titulo;
 
-    private Usuario usuario;
+    protected Usuario usuario;
 
     private String mensagem;
 
