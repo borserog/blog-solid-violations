@@ -10,15 +10,15 @@ import java.util.logging.Logger;
 
 public class PostagemDAOSqlite extends PostagemDAO {
 
-    private final String arquivoBanco;
+    private DatabaseConfig databaseConfig;
 
     public PostagemDAOSqlite(String arquivoBanco) {
-        this.arquivoBanco = arquivoBanco;
+        this.databaseConfig = new DatabaseConfig(arquivoBanco);
     }
 
     @Override
     public Connection connect() {
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:"+this.arquivoBanco)) {
+        try (Connection connection = databaseConfig.openConnection()) {
             Statement statement = connection.createStatement();
 
             //Criando tabela de postagem

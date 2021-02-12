@@ -7,14 +7,15 @@ import java.util.List;
 
 public class UsuarioDAOSqlite extends UsuarioDAO {
 
-    private final String arquivoBanco;
+    private DatabaseConfig databaseConfig;
+
     public UsuarioDAOSqlite(String arquivoBanco) {
-        this.arquivoBanco = arquivoBanco;
+        this.databaseConfig = new DatabaseConfig(arquivoBanco);
     }
 
     @Override
     protected Connection connect() {
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:"+this.arquivoBanco)) {
+        try (Connection connection = databaseConfig.openConnection()) {
             Statement statement = connection.createStatement();
 
             //Criando tabela de usuários
