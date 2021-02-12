@@ -1,26 +1,27 @@
-package br.edu.ifpb.padroes.service;
+package br.edu.ifpb.padroes.dao;
 
 import br.edu.ifpb.padroes.modelo.Postagem;
 import br.edu.ifpb.padroes.modelo.PostagemResposta;
+import br.edu.ifpb.padroes.service.UsuarioServiceImpl;
 
 import java.sql.*;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class PostagemDAO {
+public class PostagemDAOSqlite extends PostagemDAO {
 
-    private String arquivoBanco;
+    private final String arquivoBanco;
 
-    public PostagemDAO(String arquivoBanco) {
+    public PostagemDAOSqlite(String arquivoBanco) {
         this.arquivoBanco = arquivoBanco;
     }
 
-    private Connection connect() {
-        // TODO candidato para inversão de dependência criar classe Abstrata AbstractDAO<T>
+    @Override
+    public Connection connect() {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:"+this.arquivoBanco)) {
             Statement statement = connection.createStatement();
 
-            //Criando tabela de usuários
+            //Criando tabela de postagem
             statement.execute("CREATE TABLE IF NOT EXISTS POSTAGEM( ID INTEGER, TITULO VARCHAR, USUARIO_ID VARCHAR, MENSAGEM VARCHAR, TIPO VARCHAR )");
 
             return connection;
@@ -30,7 +31,8 @@ public class PostagemDAO {
         return null;
     }
 
-    public void addPostagem(Postagem postagem) {
+    @Override
+    public void adicionar(Postagem postagem) {
         Connection conexao = connect();
         try (PreparedStatement stmt = conexao.prepareStatement("INSERT INTO POSTAGEM( ID, TITULO, USUARIO_ID, MENSAGEM, TIPO) VALUES (?, ?, ?, ?, ?)")) {
             stmt.setLong(1, postagem.getId());
@@ -44,19 +46,23 @@ public class PostagemDAO {
         }
     }
 
+    @Override
     public void addPostagemResposta(PostagemResposta postagem) {
         this.trataExcecao(new Exception("Não implementado ainda"));
     }
 
-    public void updatePostagem(Postagem postagem) {
+    @Override
+    public void atualizar(Postagem postagem) {
         this.trataExcecao(new Exception("Não implementado ainda"));
     }
 
-    public void deletePostagem(Postagem postagem) {
+    @Override
+    public void remover(Postagem postagem) {
         this.trataExcecao(new Exception("Não implementado ainda"));
     }
 
-    public List<Postagem> listPostagens() {
+    @Override
+    public List<Postagem> listar() {
         this.trataExcecao(new Exception("Não implementado ainda"));
         return null;
     }
@@ -65,10 +71,4 @@ public class PostagemDAO {
         this.trataExcecao(new Exception("Não implementado ainda"));
         return null;
     }
-
-    public void trataExcecao(Exception ex) {
-        Logger.getLogger(UsuarioServiceImpl.class.getName()).warning(ex.getMessage());
-    }
-
-
 }

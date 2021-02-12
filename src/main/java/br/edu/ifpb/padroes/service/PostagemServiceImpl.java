@@ -1,5 +1,6 @@
 package br.edu.ifpb.padroes.service;
 
+import br.edu.ifpb.padroes.dao.PostagemDAO;
 import br.edu.ifpb.padroes.modelo.Postagem;
 import br.edu.ifpb.padroes.modelo.PostagemResposta;
 
@@ -7,21 +8,25 @@ import java.util.Date;
 
 public class PostagemServiceImpl implements PostagemService {
 
-  private final PostagemDAO postagemDAO = new PostagemDAO("banco.db");
+  private final PostagemDAO postagemDAO;
+
+  public PostagemServiceImpl(PostagemDAO dao) {
+    this.postagemDAO = dao;
+  }
 
   @Override
   public void adicionarPostagem(Postagem postagem) {
-    postagemDAO.addPostagem(postagem);
+    postagemDAO.adicionar(postagem);
   }
 
   @Override
   public void removerPostagem(Postagem postagem) {
-    this.postagemDAO.deletePostagem(postagem);
+    this.postagemDAO.remover(postagem);
   }
 
   @Override
   public void atualizarPostagem(Postagem postagem) {
-    this.postagemDAO.updatePostagem(postagem);
+    this.postagemDAO.atualizar(postagem);
   }
 
   @Override

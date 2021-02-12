@@ -1,19 +1,19 @@
-package br.edu.ifpb.padroes.service;
+package br.edu.ifpb.padroes.dao;
 
 import br.edu.ifpb.padroes.modelo.Usuario;
 
 import java.sql.*;
 import java.util.List;
-import java.util.logging.Logger;
 
-public class UsuarioDAO {
+public class UsuarioDAOSqlite extends UsuarioDAO {
 
-    private String arquivoBanco;
-    public UsuarioDAO(String arquivoBanco) {
+    private final String arquivoBanco;
+    public UsuarioDAOSqlite(String arquivoBanco) {
         this.arquivoBanco = arquivoBanco;
     }
 
-    private Connection connect() {
+    @Override
+    protected Connection connect() {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:"+this.arquivoBanco)) {
             Statement statement = connection.createStatement();
 
@@ -42,7 +42,8 @@ public class UsuarioDAO {
         return null;
     }
 
-    public void addUsuario(Usuario usuario) {
+    @Override
+    public void adicionar(Usuario usuario) {
         Connection conexao = connect();
         try (PreparedStatement stmt = conexao.prepareStatement("INSERT INTO USUARIO( ID, NOME, LOGIN, SENHA) VALUES (?, ?, ?, ?)")) {
             stmt.setLong(1, usuario.getId());
@@ -55,15 +56,18 @@ public class UsuarioDAO {
         }
     }
 
-    public void updateUsuario(Usuario usuario) {
+    @Override
+    public void atualizar(Usuario usuario) {
         this.trataExcecao(new Exception("Não implementado ainda"));
     }
 
-    public void deleteUsuario(Usuario usuario) {
+    @Override
+    public void remover(Usuario usuario) {
         this.trataExcecao(new Exception("Não implementado ainda"));
     }
 
-    public List<Usuario> listUsuarios() {
+    @Override
+    public List<Usuario> listar() {
         this.trataExcecao(new Exception("Não implementado ainda"));
         return null;
     }
@@ -72,10 +76,4 @@ public class UsuarioDAO {
         this.trataExcecao(new Exception("Não implementado ainda"));
         return null;
     }
-
-    public void trataExcecao(Exception ex) {
-        Logger.getLogger(UsuarioServiceImpl.class.getName()).warning(ex.getMessage());
-    }
-
-
 }
