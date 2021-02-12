@@ -24,4 +24,5 @@ public class PostagemResposta extends Postagem {
     public void setData(Date data) {
         this.data = data;
     }
+
 }

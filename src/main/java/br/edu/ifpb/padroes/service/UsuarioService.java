@@ -10,6 +10,7 @@ public interface UsuarioService {
     void criarUsuario(Usuario usuario);
     void atualizarUsuario(Usuario usuario);
     void removerUsuario(Usuario usuario);
+    List<Usuario> listarUsuariosComPostagem();
     List<Usuario> listarUsuarios(Usuario usuario);
     Usuario recuperarUsuario(Long id);
 

@@ -4,6 +4,7 @@ import br.edu.ifpb.padroes.modelo.Postagem;
 import br.edu.ifpb.padroes.modelo.PostagemResposta;
 import br.edu.ifpb.padroes.modelo.Usuario;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void removerUsuario(Usuario usuario) {
         usuarioDAO.deleteUsuario(usuario);
+    }
+
+    @Override
+    public List<Usuario> listarUsuariosComPostagem() {
+        List<Usuario> usuarios = new ArrayList<>();
+        for (Usuario usuario : usuarioDAO.listUsuarios()) {
+            if (usuario.getPostagens().size() == 0) {
+                return null;
+            }
+            usuarios.add(usuario);
+        }
+        return usuarios;
     }
 
     @Override
